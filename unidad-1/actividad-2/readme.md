@@ -1,1 +1,1 @@
-
+Subi este programa, me ha costado mucho entender como se hace ya sea por tiempo y conocimiento. He tenido a varias personas que me han dado una mano pero de todas maneras me cuesta migrar a este lenguaje se que con tiemp se lograra. Lo que hice lo hice con ayuda de personas que saben, algo de videos en internet otro poco la ia me ayudo.
