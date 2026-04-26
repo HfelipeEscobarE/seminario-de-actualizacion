@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora Web Component</title>
+</head>
+
+<body>
+
+<x-calculadora></x-calculadora>
+
+<script>
+class Calculadora extends HTMLElement {
+
+    constructor() {
+        super();
+
+        // Pantalla
+        this.pantalla = document.createElement("input");
+        this.pantalla.type = "text";
+        this.pantalla.value = "0";
+        this.pantalla.readOnly = true;
+
+        // Contenedor
+        this.container = document.createElement("div");
+
+        // Botones
+        const botones = [
+            "7","8","9","+",
+            "4","5","6","-",
+            "1","2","3","*",
+            "0",".","=","/",
+            "Borrar"
+        ];
+
+        botones.forEach(texto => {
+            const btn = document.createElement("button");
+            btn.textContent = texto;
+
+            btn.onclick = () => this.manejarClick(texto);
+
+            this.container.appendChild(btn);
+        });
+
+        // Agregar todo al componente
+        this.appendChild(this.pantalla);
+        this.appendChild(this.container);
+    }
+
+    manejarClick(valor) {
+        if (valor === "Borrar") {
+            this.pantalla.value = "0";
+        } 
+        else if (valor === "=") {
+            try {
+                this.pantalla.value = eval(this.pantalla.value);
+            } catch {
+                this.pantalla.value = "Error";
+            }
+        } 
+        else {
+            if (this.pantalla.value === "0") {
+                this.pantalla.value = valor;
+            } else {
+                this.pantalla.value += valor;
+            }
+        }
+    }
+}
+
+// Registrar el componente
+customElements.define("x-calculadora", Calculadora);
+
+</script>
+
+</body>
