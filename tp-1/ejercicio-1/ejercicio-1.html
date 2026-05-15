@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Ejercicio de Saludo</title>
+</head>
+<body>
+
+    <x-saludador></x-saludador>
+
+<script>
+class SaludadorForm extends HTMLElement {
+    constructor() {
+        super();
+
+        
+        this.inputNombre = document.createElement('input');
+        this.inputApellido = document.createElement('input');
+        this.btnSaludar = document.createElement('button');
+        this.resultado = document.createElement('p'); // Párrafo para mostrar el saludo
+
+        
+        this.inputNombre.placeholder = 'Ingrese nombre...';
+        this.inputApellido.placeholder = 'Ingrese apellido...';
+        this.btnSaludar.innerText = 'Saludar';
+
+        
+        this.appendChild(this.inputNombre);
+        this.appendChild(this.inputApellido);
+        this.appendChild(this.btnSaludar);
+        this.appendChild(this.resultado);
+    }
+
+    
+    procesarSaludo() {
+        
+        let nombreRaw = this.inputNombre.value.trim();
+        let apellidoRaw = this.inputApellido.value.trim();
+
+        
+        if (nombreRaw === "" || apellidoRaw === "") {
+            this.resultado.innerText = "Por favor, complete ambos campos.";
+            return;
+        }
+
+        
+        let apellidoFormateado = apellidoRaw.toUpperCase();
+
+        
+        let nombreMinuscula = nombreRaw.toLowerCase();
+        let nombreFormateado = nombreMinuscula.charAt(0).toUpperCase() + nombreMinuscula.slice(1);
+
+        
+        this.resultado.innerText = `¡Buenos días ${apellidoFormateado}, ${nombreFormateado}!`;
+    }
+
+    connectedCallback() {
+        
+        this.btnSaludar.onclick = () => this.procesarSaludo();
+    }
+
+    disconnectedCallback() {
+        this.btnSaludar.onclick = null;
+    }
+}
+
+
+customElements.define('x-saludador', SaludadorForm);
+</script>
+
+</body>
+</html>
