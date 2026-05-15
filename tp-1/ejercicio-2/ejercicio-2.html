@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Validación de Fecha de Nacimiento</title>
+</head>
+<body>
+
+    <x-validador-fecha></x-validador-fecha>
+
+<script>
+class ValidadorFecha extends HTMLElement {
+    constructor() {
+        super();
+
+        
+        this.reintentos = 0;
+
+        
+        this.inputFecha = document.createElement('input');
+        this.btnValidar = document.createElement('button');
+        this.resultado = document.createElement('p');
+
+    
+        this.inputFecha.type = 'date'; 
+        this.btnValidar.innerText = 'Validar Fecha';
+        
+        
+        this.resultado.style.fontWeight = 'bold';
+
+        
+        this.appendChild(this.inputFecha);
+        this.appendChild(this.btnValidar);
+        this.appendChild(this.resultado);
+    }
+
+    validarFecha() {
+        let txtFecha = this.inputFecha.value;
+
+        
+        if (txtFecha === "") {
+            this.reintentos++;
+            this.resultado.style.color = 'red';
+            this.resultado.innerText = `Error: No ingresó ninguna fecha. Intento número: ${this.reintentos}. Por favor, intente de nuevo.`;
+            return;
+        }
+
+        
+        let fechaConvertida = new Date(txtFecha);
+
+        
+        if (isNaN(fechaConvertida.getTime())) {
+            
+            this.reintentos++;
+            this.resultado.style.color = 'red';
+            this.resultado.innerText = `Error: El texto suministrado es inválido. Intento número: ${this.reintentos}. Por favor, vuelva a ingresar la fecha.`;
+        } else {
+            
+            this.resultado.style.color = 'green';
+            this.resultado.innerText = `¡Fecha válida ingresada correctamente! Su fecha es: ${txtFecha}. (Le tomó ${this.reintentos} reintentos fallidos).`;
+            
+            
+            this.reintentos = 0; 
+        }
+    }
+
+    connectedCallback() {
+        
+        this.btnValidar.onclick = () => this.validarFecha();
+    }
+
+    disconnectedCallback() {
+        this.btnValidar.onclick = null;
+    }
+}
+
+
+customElements.define('x-validador-fecha', ValidadorFecha);
+</script>
+
+</body>
+</html>
